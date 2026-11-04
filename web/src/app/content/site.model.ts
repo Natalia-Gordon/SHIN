@@ -23,6 +23,10 @@ export interface FooterColumn {
   links: SiteLink[];
 }
 
+export interface SiteConfig {
+  contactFormEnabled: boolean;
+}
+
 export interface SiteData {
   pages: SitePage[];
   nav: SiteLink[];

@@ -97,6 +97,47 @@
   margin-left: auto;
 }
 
+.search-link {
+  gap: 0.45rem;
+  padding: 0 1.05rem 0 0.85rem;
+  background: var(--paper);
+  transition:
+    background 0.15s,
+    border-color 0.15s,
+    box-shadow 0.15s,
+    color 0.15s;
+}
+
+.search-link svg {
+  flex: none;
+  color: var(--rose);
+  transition: color 0.15s;
+}
+
+.search-link:hover,
+.search-link:focus-visible {
+  background: white;
+  border-color: var(--rose);
+  box-shadow: 0 3px 10px rgba(143, 45, 69, 0.14);
+}
+
+.search-link.active {
+  background: var(--rose);
+  border-color: var(--rose);
+  color: white;
+}
+
+.search-link.active svg {
+  color: white;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .search-link,
+  .search-link svg {
+    transition: none;
+  }
+}
+
 .primary-nav {
   display: none;
   gap: 0.25rem;

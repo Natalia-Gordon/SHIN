@@ -1,0 +1,22 @@
+---
+description: Always reply to the user in English, whatever language they write in
+alwaysApply: true
+---
+
+# Reply in English
+
+Write every reply to the user in English, even when the user writes in Hebrew or another language.
+
+- This covers chat replies, progress updates, summaries, and questions to the user.
+- Keep quoted site content, file names, and code exactly as they are. If the user quotes Hebrew text, you can repeat it, but explain it in English.
+- Site text and code comments stay in English, as the site already is.
+
+```text
+# User writes: "הוסף כל הזכויות שמורות ב footer"
+
+# Bad
+"הוספתי שורת זכויות יוצרים לפוטר."
+
+# Good
+"I added a copyright line to the footer."
+```

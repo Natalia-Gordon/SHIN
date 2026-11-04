@@ -185,6 +185,24 @@ main {
   color: #d9cfc3;
 }
 
+.footer-bottom {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 2rem;
+  margin-top: 0.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(246, 241, 234, 0.18);
+  color: #d9cfc3;
+  font-size: 0.85rem;
+}
+
+.copyright {
+  margin: 0;
+}
+
 @media (min-width: 960px) {
   .site-header {
     grid-template-columns: auto 1fr;

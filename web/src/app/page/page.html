@@ -26,7 +26,7 @@
           }
         </nav>
         <div class="page-layout" [class.with-aside]="ready.section">
-          <article [class.reading]="isReading(ready.page)" [class.wide]="ready.page.path === '/projects'">
+          <article [class.reading]="isReading(ready.page)" [class.wide]="ready.overview">
             <header class="page-title">
               <h1>{{ ready.page.title }}</h1>
               @if (ready.page.showDate) {
@@ -35,8 +35,8 @@
                 </p>
               }
             </header>
-            @if (ready.page.path === '/projects') {
-              <app-project-list />
+            @if (ready.overview; as overview) {
+              <app-section-overview [overview]="overview" />
             } @else {
               <div class="prose" [appStaticHtml]="ready.html"></div>
             }

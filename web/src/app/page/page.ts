@@ -8,7 +8,8 @@ import { ParagraphClass, toParagraphs } from '../content/paragraphs';
 import { SitePage } from '../content/site.model';
 import { StaticHtml } from '../content/static-html';
 import { ContactForm } from '../contact-form/contact-form';
-import { ProjectList } from '../project-list/project-list';
+import { OVERVIEWS } from '../content/overview';
+import { SectionOverview } from '../section-overview/section-overview';
 
 interface SectionNav {
   owner: SitePage;
@@ -17,7 +18,7 @@ interface SectionNav {
 
 @Component({
   selector: 'app-page',
-  imports: [RouterLink, DatePipe, StaticHtml, ContactForm, ProjectList],
+  imports: [RouterLink, DatePipe, StaticHtml, ContactForm, SectionOverview],
   templateUrl: './page.html',
   styleUrl: './page.scss',
 })
@@ -44,6 +45,7 @@ export class PageView {
       state: 'ready' as const,
       page,
       html: toParagraphs(page.html, page.slug === 'about-us' ? aboutClasses() : undefined),
+      overview: OVERVIEWS[page.path] ?? null,
       crumbs: this.crumbs(site.pages, page),
       section: this.section(site.pages, page),
     };

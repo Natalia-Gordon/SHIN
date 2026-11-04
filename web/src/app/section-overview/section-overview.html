@@ -1,0 +1,30 @@
+<ul class="cards" [class.three]="overview().columns === 3" [attr.aria-label]="overview().label">
+  @for (card of overview().cards; track card.path) {
+    <li>
+      <article class="card" [attr.aria-labelledby]="'card-' + $index">
+        @if (card.image) {
+          <a class="card-image" [routerLink]="card.path" tabindex="-1" aria-hidden="true">
+            <img [src]="card.image" alt="" width="220" height="120" />
+          </a>
+        }
+        <div class="card-body">
+          <h2 [id]="'card-' + $index">
+            <a [routerLink]="card.path">{{ card.title }}</a>
+          </h2>
+          <p class="tagline">{{ card.tagline }}</p>
+          @if (card.facts?.length) {
+            <ul class="facts" aria-label="Key facts">
+              @for (fact of card.facts; track fact) {
+                <li>{{ fact }}</li>
+              }
+            </ul>
+          }
+          @for (paragraph of card.summary; track $index) {
+            <p>{{ paragraph }}</p>
+          }
+          <a class="more" [routerLink]="card.path">Read more: {{ card.title }}</a>
+        </div>
+      </article>
+    </li>
+  }
+</ul>

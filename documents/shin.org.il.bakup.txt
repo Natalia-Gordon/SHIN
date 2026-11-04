@@ -1,0 +1,7 @@
+$ORIGIN SHIN.ORG.IL.
+$TTL 3600
+SHIN.ORG.IL.          IN  NS  NS1.JUSTHOST.COM.
+SHIN.ORG.IL.          IN  NS  NS2.JUSTHOST.COM.
+SHIN.ORG.IL.          IN  A  173.254.28.240
+SHIN.ORG.IL.          IN  MX  0  MAIL.SHIN.ORG.IL.
+SHIN.ORG.IL.          IN  TXT  "v=spf1 a mx ptr include:justhost.com ?all"

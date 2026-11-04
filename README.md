@@ -52,9 +52,19 @@ Deploys from GitHub Actions keep these settings. Each visitor IP can send up to 
 To try the server locally, build the site and run it, then use `npm start` in `web/`. The dev server forwards `/api` and `/config.json` to port 8080:
 
 ```bash
-cd web && npx ng build
+cd web && npm run build
 cd ../server && npm ci && PUBLIC_DIR=../web/dist/web/browser node server.mjs
 ```
+
+## Search engines and AI models
+
+Every page is prerendered to static HTML at build time (Angular SSR with `outputMode: "static"`), so Google, Bing and AI crawlers that do not run JavaScript still see the full text. In the browser, Angular hydrates the prerendered page instead of rebuilding it. Search (`/search`) is rendered in the browser only and is marked `noindex`.
+
+- Each page gets its own title, meta description, canonical link, Open Graph and Twitter tags, and schema.org JSON-LD: the organization (`NGO`), the page (`WebPage` or `Article`) and its breadcrumbs. See `web/src/app/content/seo.service.ts`.
+- `npm run build` first runs `web/tools/build-seo.mjs`, which writes `sitemap.xml`, `robots.txt` (open to search engines and AI crawlers such as GPTBot, ClaudeBot and PerplexityBot), `llms.txt` (a guide to the site for AI models) and `llms-full.txt` (the text of every page).
+- The server returns 404 for unknown addresses and redirects trailing slashes to the canonical address.
+
+All absolute links use `siteUrl` in `web/src/site.config.json`. When shin.org.il points to Cloud Run, change it there and redeploy. Then submit `sitemap.xml` in Google Search Console and Bing Webmaster Tools.
 
 ## Chrome translation
 

@@ -1,5 +1,8 @@
-import { Directive, ElementRef, HostListener, effect, inject, input } from '@angular/core';
+import { isPlatformServer } from '@angular/common';
+import { Directive, ElementRef, HostListener, PLATFORM_ID, effect, inject, input } from '@angular/core';
 import { Router } from '@angular/router';
+
+const PRERENDERED = 'data-prerendered';
 
 /** Renders archive HTML once per value so Chrome translation is not wiped on the next change-detection pass. */
 @Directive({
@@ -8,6 +11,7 @@ import { Router } from '@angular/router';
 export class StaticHtml {
   private readonly element = inject(ElementRef<HTMLElement>);
   private readonly router = inject(Router);
+  private readonly isServer = isPlatformServer(inject(PLATFORM_ID));
   private rendered = '';
 
   readonly appStaticHtml = input.required<string>();
@@ -16,8 +20,16 @@ export class StaticHtml {
     effect(() => {
       const html = this.appStaticHtml();
       if (html === this.rendered) return;
+      const host = this.element.nativeElement;
+      // Keep the prerendered markup on first load instead of rebuilding identical DOM (and reloading images).
+      if (!this.isServer && !this.rendered && host.hasAttribute(PRERENDERED)) {
+        host.removeAttribute(PRERENDERED);
+        this.rendered = html;
+        return;
+      }
       this.rendered = html;
-      this.element.nativeElement.innerHTML = html;
+      host.innerHTML = html;
+      if (this.isServer) host.setAttribute(PRERENDERED, '');
     });
   }
 

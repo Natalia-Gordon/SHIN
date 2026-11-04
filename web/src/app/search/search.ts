@@ -2,6 +2,7 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ContentService } from '../content/content.service';
+import { SeoService } from '../content/seo.service';
 import { SitePage } from '../content/site.model';
 
 @Component({
@@ -31,6 +32,12 @@ export class SearchPage {
 
   constructor() {
     this.route.queryParamMap.subscribe((params) => this.query.set(params.get('q') ?? ''));
+    inject(SeoService).update({
+      title: 'Search',
+      description: 'Search the SHIN archive of pages about women’s representation, projects and events.',
+      path: '/search',
+      noindex: true,
+    });
   }
 
   protected onInput(event: Event): void {

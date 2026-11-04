@@ -123,20 +123,47 @@ app.use('/content', express.static(path.join(PUBLIC_DIR, 'content'), { maxAge: '
 app.use(
   express.static(PUBLIC_DIR, {
     index: false,
+    redirect: false,
     setHeaders(res, filePath) {
       if (/-[A-Z0-9]{8}\.(?:js|css)$/.test(filePath)) {
         res.set('Cache-Control', 'public, max-age=31536000, immutable');
+      } else if (/\.(?:txt|xml)$/.test(filePath)) {
+        res.set('Cache-Control', 'public, max-age=3600');
       }
     },
   }),
 );
 
-const indexFile = path.join(PUBLIC_DIR, 'index.html');
-app.get('/{*path}', (_req, res) => {
-  res.set('Cache-Control', 'no-cache').sendFile(indexFile);
+// Pages are prerendered to <path>/index.html. Routes rendered in the browser (search) and unknown
+// addresses get the client-side shell; unknown addresses also get a 404 status.
+const CLIENT_ROUTES = new Set(['/search']);
+const shellFile = existsSync(path.join(PUBLIC_DIR, 'index.csr.html'))
+  ? path.join(PUBLIC_DIR, 'index.csr.html')
+  : path.join(PUBLIC_DIR, 'index.html');
+
+app.get('/{*path}', (req, res) => {
+  if (req.path.length > 1 && req.path.endsWith('/')) {
+    res.redirect(301, req.path.replace(/\/+$/, '') + req.url.slice(req.path.length));
+    return;
+  }
+  let pagePath;
+  try {
+    pagePath = decodeURIComponent(req.path);
+  } catch {
+    res.status(400).end();
+    return;
+  }
+  const prerendered = path.join(PUBLIC_DIR, pagePath, 'index.html');
+  const insidePublic = prerendered.startsWith(PUBLIC_DIR + path.sep);
+  res.set('Cache-Control', 'no-cache');
+  if (insidePublic && existsSync(prerendered)) {
+    res.sendFile(prerendered);
+    return;
+  }
+  res.status(CLIENT_ROUTES.has(pagePath) ? 200 : 404).sendFile(shellFile);
 });
 
-if (!existsSync(indexFile)) {
+if (!existsSync(path.join(PUBLIC_DIR, 'index.html'))) {
   console.warn(`index.html not found in ${PUBLIC_DIR}`);
 }
 

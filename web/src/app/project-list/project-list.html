@@ -1,0 +1,28 @@
+<ul class="project-list">
+  @for (project of projects; track project.title) {
+    <li>
+      <article class="project" [attr.aria-labelledby]="'project-' + $index">
+        <a class="project-image" [routerLink]="project.path" tabindex="-1" aria-hidden="true">
+          <img [src]="project.image" alt="" width="220" height="120" />
+        </a>
+        <div class="project-body">
+          <h2 [id]="'project-' + $index">
+            <a [routerLink]="project.path">{{ project.title }}</a>
+          </h2>
+          <p class="tagline">{{ project.tagline }}</p>
+          @if (project.facts?.length) {
+            <ul class="facts" aria-label="Key facts">
+              @for (fact of project.facts; track fact) {
+                <li>{{ fact }}</li>
+              }
+            </ul>
+          }
+          @for (paragraph of project.summary; track $index) {
+            <p>{{ paragraph }}</p>
+          }
+          <a class="more" [routerLink]="project.path">Read more about {{ project.title }}</a>
+        </div>
+      </article>
+    </li>
+  }
+</ul>

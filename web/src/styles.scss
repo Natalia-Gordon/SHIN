@@ -6,11 +6,41 @@
   --rose: #8f2d45;
   --teal: #1d4e5f;
   --line: #e4d9cb;
+  --container: 1180px;
+  --gutter: max(1rem, calc((100% - var(--container)) / 2));
+  --measure: 41rem;
+  --header-height: 0px;
+  --font-body: Inter, "Noto Sans Hebrew", "Noto Sans Arabic", "Segoe UI", system-ui, sans-serif;
+  --font-display: Literata, "Noto Sans Hebrew", "Noto Sans Arabic", Georgia, serif;
   color: var(--ink);
   background: var(--paper);
-  font-family: "Source Sans 3", "Segoe UI", sans-serif;
+  font-family: var(--font-body);
   font-size: 17px;
-  line-height: 1.55;
+  line-height: 1.6;
+  font-optical-sizing: auto;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+@media (min-width: 1024px) {
+  :root {
+    font-size: 18px;
+  }
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+
+p,
+li {
+  text-wrap: pretty;
 }
 
 * {
@@ -32,15 +62,65 @@ img {
 }
 
 .prose {
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.prose p,
+.prose ul,
+.prose ol {
+  margin: 0 0 1.15em;
+}
+
+.prose li {
+  margin-bottom: 0.35em;
+}
+
+.prose strong,
+.prose b {
+  font-weight: 650;
 }
 
 .prose h2,
 .prose h3,
 .prose h4,
 .prose .person h3 {
-  font-family: Literata, Georgia, serif;
-  line-height: 1.25;
+  font-weight: 600;
+  line-height: 1.3;
+  margin: 1.6em 0 0.5em;
+}
+
+.prose h2 {
+  font-size: 1.5rem;
+}
+
+.prose h3 {
+  font-size: 1.25rem;
+}
+
+.prose h4 {
+  font-size: 1.1rem;
+}
+
+.prose h5,
+.prose h6 {
+  margin: 1.4em 0 0.4em;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 650;
+  line-height: 1.4;
+}
+
+.prose > :first-child,
+.prose .person h3 {
+  margin-top: 0;
+}
+
+.prose h2 strong,
+.prose h3 strong,
+.prose h4 strong {
+  font-weight: inherit;
 }
 
 .prose img {
@@ -49,6 +129,60 @@ img {
 
 .prose a {
   color: var(--teal);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+}
+
+.prose a:hover {
+  text-decoration-thickness: 2px;
+}
+
+.reading .prose {
+  font-size: 1.0625rem;
+  line-height: 1.75;
+}
+
+.reading .prose h3 {
+  margin: 0 0 0.35rem;
+  font-size: clamp(1.4rem, 2.4vw, 1.75rem);
+  font-weight: 700;
+}
+
+.reading .prose p.kicker {
+  margin: 0.15rem 0 1.15rem;
+  color: var(--rose);
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.reading .prose p.kicker strong {
+  color: inherit;
+  font-weight: inherit;
+}
+
+.reading .prose p.lead {
+  font-size: 1.18rem;
+  line-height: 1.65;
+}
+
+.reading .prose strong {
+  color: var(--rose);
+  font-weight: 650;
+}
+
+.reading .prose a,
+.reading .prose strong a {
+  color: var(--teal);
+}
+
+.reading .prose p.people {
+  margin-top: 1.6rem;
+  padding: 0.95rem 1rem;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-inline-start: 4px solid var(--rose);
+  border-radius: 14px;
+  line-height: 1.6;
 }
 
 .prose iframe,
@@ -143,6 +277,26 @@ img {
 .prose .person img {
   width: min(100%, 220px);
   border-radius: 12px;
+}
+
+@media (min-width: 900px) {
+  .prose .gallery,
+  .prose .gallery-snap {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+    gap: 0.6rem;
+    overflow: visible;
+    padding-bottom: 0;
+  }
+
+  .prose .gallery img,
+  .prose .gallery-snap img {
+    height: 150px;
+  }
+
+  .prose .gallery-snap figure {
+    flex: none;
+  }
 }
 
 @media (min-width: 720px) {

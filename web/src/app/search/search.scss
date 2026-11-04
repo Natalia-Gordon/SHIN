@@ -1,12 +1,17 @@
+:host {
+  display: block;
+  max-width: var(--measure);
+}
+
 h1 {
   margin: 0 0 0.8rem;
-  font-family: Literata, Georgia, serif;
+  font-family: var(--font-display);
 }
 
 label {
   display: grid;
   gap: 0.35rem;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 input {
@@ -39,7 +44,7 @@ li {
 
 a {
   color: var(--ink);
-  font-weight: 700;
+  font-weight: 600;
   text-decoration: none;
 }
 

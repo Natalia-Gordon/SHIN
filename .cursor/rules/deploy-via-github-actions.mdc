@@ -1,0 +1,21 @@
+---
+description: Deploy SHIN only through the GitHub Actions workflow
+alwaysApply: true
+---
+
+# Deploy through GitHub Actions
+
+Images for Cloud Run service `shin` are built and deployed only by `.github/workflows/deploy.yml`, after a push to `main`.
+
+- Do not run `gcloud builds submit` or use Cloud Build.
+- Do not build or push images from this machine, and do not run `gcloud run deploy` by hand.
+- To ship a change: commit it, then ask the user before pushing (see `no-git-push.mdc`). The push starts the workflow.
+- Read-only `gcloud` commands (describe, list, logs) are fine for checking the result.
+
+```text
+# Bad
+gcloud builds submit --tag us-central1-docker.pkg.dev/shin-512818/shin/shin:latest .
+
+# Good
+"The change is committed. Should I push to origin/main so GitHub Actions deploys it?"
+```

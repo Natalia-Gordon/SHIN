@@ -10,13 +10,13 @@
 
 h2 {
   margin: 0;
-  font-family: Literata, Georgia, serif;
+  font-family: var(--font-display);
 }
 
 label {
   display: grid;
   gap: 0.3rem;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 input,
@@ -44,7 +44,7 @@ button {
   background: var(--rose);
   color: white;
   font: inherit;
-  font-weight: 700;
+  font-weight: 600;
   cursor: pointer;
 }
 

@@ -25,20 +25,45 @@
             }
           }
         </nav>
-        <article>
-          <header class="page-title">
-            <h1>{{ ready.page.title }}</h1>
-            @if (ready.page.showDate) {
-              <p>
-                <time [attr.datetime]="ready.page.date">{{ ready.page.date | date: 'd MMMM y' }}</time>
-              </p>
+        <div class="page-layout" [class.with-aside]="ready.section">
+          <article [class.reading]="isReading(ready.page)" [class.wide]="ready.page.path === '/projects'">
+            <header class="page-title">
+              <h1>{{ ready.page.title }}</h1>
+              @if (ready.page.showDate) {
+                <p>
+                  <time [attr.datetime]="ready.page.date">{{ ready.page.date | date: 'd MMMM y' }}</time>
+                </p>
+              }
+            </header>
+            @if (ready.page.path === '/projects') {
+              <app-project-list />
+            } @else {
+              <div class="prose" [appStaticHtml]="ready.html"></div>
             }
-          </header>
-          <div class="prose" [appStaticHtml]="ready.page.html"></div>
-          @if (ready.page.slug === 'contact-us') {
-            <app-contact-form />
+            @if (ready.page.slug === 'contact-us') {
+              <app-contact-form />
+            }
+          </article>
+          @if (ready.section; as section) {
+            <aside class="section-nav" aria-labelledby="section-heading">
+              <h2 id="section-heading">
+                <a [routerLink]="section.owner.path">{{ section.owner.title }}</a>
+              </h2>
+              <ul>
+                @for (item of section.items; track item.id) {
+                  <li>
+                    <a
+                      [routerLink]="item.path"
+                      [class.current]="item.id === ready.page.id"
+                      [attr.aria-current]="item.id === ready.page.id ? 'page' : null"
+                      >{{ item.title }}</a
+                    >
+                  </li>
+                }
+              </ul>
+            </aside>
           }
-        </article>
+        </div>
       }
     }
   }

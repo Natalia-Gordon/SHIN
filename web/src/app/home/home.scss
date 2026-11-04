@@ -1,0 +1,115 @@
+.hero {
+  max-width: 42rem;
+}
+
+.eyebrow {
+  margin: 0 0 0.4rem;
+  color: var(--rose);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 0.78rem;
+}
+
+h1 {
+  margin: 0 0 0.8rem;
+  font-family: Literata, Georgia, serif;
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  line-height: 1.15;
+  font-weight: 700;
+}
+
+.hero p {
+  font-size: 1.08rem;
+  line-height: 1.6;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  margin-top: 0.4rem;
+  padding: 0.55rem 1rem;
+  border-radius: 999px;
+  background: var(--rose);
+  color: white;
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.projects {
+  margin-top: 2.5rem;
+}
+
+.section-heading h2 {
+  margin: 0;
+  font-family: Literata, Georgia, serif;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+}
+
+.section-heading p {
+  margin: 0.2rem 0 1rem;
+  color: var(--muted);
+}
+
+.project-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.9rem;
+}
+
+.project-card {
+  display: grid;
+  gap: 0.35rem;
+  padding: 0.75rem;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.project-card img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 10px;
+  background: var(--line);
+}
+
+.project-card h3 {
+  margin: 0.35rem 0 0;
+  font-family: Literata, Georgia, serif;
+  font-size: 1.2rem;
+}
+
+.project-card p {
+  margin: 0;
+  color: var(--muted);
+}
+
+@media (min-width: 700px) {
+  .project-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .project-card:last-child {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (min-width: 1040px) {
+  .project-grid {
+    grid-template-columns: repeat(6, 1fr);
+  }
+
+  .project-card,
+  .project-card:last-child {
+    grid-column: span 2;
+  }
+
+  .project-card:nth-child(4),
+  .project-card:nth-child(5) {
+    grid-column: span 3;
+  }
+}

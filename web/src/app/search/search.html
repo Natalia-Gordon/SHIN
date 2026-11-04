@@ -1,0 +1,29 @@
+<section class="search-page">
+  <h1>Search</h1>
+  <label>
+    Search the SHIN archive
+    <input
+      type="search"
+      [value]="query()"
+      (input)="onInput($event)"
+      placeholder="Women, parliament, Anuar…"
+      autocomplete="off"
+    />
+  </label>
+  @if (query().trim().length >= 2) {
+    <p class="count">{{ results().length }} pages</p>
+    @if (results().length === 0) {
+      <p>No pages match that search.</p>
+    }
+    <ul>
+      @for (result of results(); track result.page.id) {
+        <li>
+          <a [routerLink]="result.page.path">{{ result.page.title }}</a>
+          <p>{{ result.snippet }}</p>
+        </li>
+      }
+    </ul>
+  } @else {
+    <p>Type at least two letters.</p>
+  }
+</section>

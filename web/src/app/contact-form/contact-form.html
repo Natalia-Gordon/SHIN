@@ -1,0 +1,20 @@
+<form class="contact-form" (ngSubmit)="send()">
+  <h2>Write to SHIN</h2>
+  <p>Your message opens in your email app, addressed to the site editor.</p>
+  <label>
+    Name
+    <input name="name" autocomplete="name" required [(ngModel)]="name" />
+  </label>
+  <label>
+    Email
+    <input name="email" type="email" autocomplete="email" required [(ngModel)]="email" />
+  </label>
+  <label>
+    Message
+    <textarea name="message" rows="6" required [(ngModel)]="message"></textarea>
+  </label>
+  <button type="submit">Send message</button>
+  @if (sent()) {
+    <p class="notice">If your email app did not open, write to michal [at] shin.org.il.</p>
+  }
+</form>

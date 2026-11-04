@@ -1,0 +1,35 @@
+<section class="hero">
+  <p class="eyebrow">Since 1989</p>
+  <h1>Equal representation of women in every center of power</h1>
+  <p>
+    SHIN was founded with the aim of achieving equal representation of women in all power centers in
+    Israel. We struggle for equal representation of women in politics and in all public and economic
+    spheres of life, with the goal of changing society in a way that will promise social justice to
+    all groups and communities in Israel.
+  </p>
+  <a class="button" routerLink="/about/about-us">Learn more about SHIN</a>
+</section>
+
+<section class="projects" aria-labelledby="projects-heading">
+  <div class="section-heading">
+    <h2 id="projects-heading">Our projects</h2>
+    <p>SHIN's fields of activity</p>
+  </div>
+  <div class="project-grid">
+    @for (project of projects; track project.title) {
+      @if (project.path) {
+        <a class="project-card" [routerLink]="project.path">
+          <img [src]="project.image" [alt]="project.alt" />
+          <h3>{{ project.title }}</h3>
+          <p>{{ project.text }}</p>
+        </a>
+      } @else {
+        <a class="project-card" [href]="project.href" target="_blank" rel="noopener noreferrer">
+          <img [src]="project.image" [alt]="project.alt" />
+          <h3>{{ project.title }}</h3>
+          <p>{{ project.text }}</p>
+        </a>
+      }
+    }
+  </div>
+</section>

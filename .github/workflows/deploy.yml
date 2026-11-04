@@ -1,0 +1,60 @@
+name: Deploy SHIN to Cloud Run
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+env:
+  PROJECT_ID: shin-512818
+  REGION: us-central1
+  SERVICE: shin
+  IMAGE: us-central1-docker.pkg.dev/shin-512818/shin/shin
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: projects/1056654439816/locations/global/workloadIdentityPools/github/providers/shin
+          service_account: shin-run-deploy@shin-512818.iam.gserviceaccount.com
+
+      - uses: google-github-actions/setup-gcloud@v2
+
+      # Same tag shape as w-parliament: 20261029-0920-404cb97-run10
+      # (UTC date-time, short commit, GitHub Actions run number).
+      - name: Build and push the image
+        run: |
+          gcloud auth configure-docker "$REGION-docker.pkg.dev" --quiet
+          SHORT_SHA="${GITHUB_SHA::7}"
+          VERSION="$(date -u +%Y%m%d-%H%M)-${SHORT_SHA}-run${GITHUB_RUN_NUMBER}"
+          echo "Image version: ${VERSION}"
+          docker build \
+            --label "org.opencontainers.image.source=${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}" \
+            --label "org.opencontainers.image.revision=${GITHUB_SHA}" \
+            --label "org.opencontainers.image.version=${VERSION}" \
+            --tag "$IMAGE:${VERSION}" \
+            --tag "$IMAGE:sha-${GITHUB_SHA}" \
+            --tag "$IMAGE:latest" \
+            .
+          docker push "$IMAGE:${VERSION}"
+          docker push "$IMAGE:sha-${GITHUB_SHA}"
+          docker push "$IMAGE:latest"
+          echo "IMAGE_VERSION=${VERSION}" >> "$GITHUB_ENV"
+
+      - name: Deploy Cloud Run service shin
+        run: |
+          gcloud run deploy "$SERVICE" \
+            --image "$IMAGE:${IMAGE_VERSION}" \
+            --region "$REGION" \
+            --project "$PROJECT_ID" \
+            --platform managed \
+            --allow-unauthenticated \
+            --port 8080 \
+            --quiet

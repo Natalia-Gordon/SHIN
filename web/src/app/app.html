@@ -1,0 +1,78 @@
+<a class="skip" href="#content">Skip to content</a>
+<header class="site-header">
+  <a class="brand" routerLink="/" aria-label="SHIN home">
+    <img src="brand/logo.png" alt="" width="72" height="55" />
+    <span>
+      <strong>SHIN</strong>
+      <small>The Israeli Movement for Equal Representation of Women</small>
+    </span>
+  </a>
+  <div class="header-tools">
+    <a class="search-link" routerLink="/search" routerLinkActive="active">Search</a>
+    <button
+      type="button"
+      class="menu-toggle"
+      [attr.aria-expanded]="menuOpen()"
+      aria-controls="primary-nav"
+      (click)="toggleMenu()"
+    >
+      {{ menuOpen() ? 'Close' : 'Menu' }}
+    </button>
+  </div>
+  <nav id="primary-nav" class="primary-nav" [class.open]="menuOpen()" aria-label="Primary">
+    @for (item of site()?.nav ?? []; track item.label) {
+      @if (item.children?.length) {
+        <div class="nav-item" [class.open]="groupIsOpen(item.label)">
+          <div class="nav-row">
+            <a [routerLink]="item.path" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: item.path === '/' }">{{
+              item.label
+            }}</a>
+            <button type="button" [attr.aria-expanded]="groupIsOpen(item.label)" (click)="toggleGroup(item.label)">
+              {{ groupIsOpen(item.label) ? 'Hide' : 'Show' }} {{ item.label }}
+            </button>
+          </div>
+          <div class="subnav">
+            @for (child of item.children; track child.path) {
+              <a [routerLink]="child.path" routerLinkActive="active">{{ child.label }}</a>
+            }
+          </div>
+        </div>
+      } @else {
+        <a
+          class="nav-link"
+          [routerLink]="item.path"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: item.path === '/' }"
+          >{{ item.label }}</a
+        >
+      }
+    }
+  </nav>
+</header>
+
+<main id="content">
+  <router-outlet />
+</main>
+
+<footer class="site-footer">
+  <div class="footer-brand">
+    <strong>SHIN, the Israeli Movement for Equal Representation of Women</strong>
+    <p>Almog 5, Michmoret, 4092700 Israel</p>
+  </div>
+  @for (column of site()?.footer ?? []; track column.title) {
+    <section>
+      <h2>{{ column.title }}</h2>
+      <ul>
+        @for (link of column.links; track link.label) {
+          <li>
+            @if (link.external) {
+              <a [href]="link.href" target="_blank" rel="noopener noreferrer">{{ link.label }}</a>
+            } @else {
+              <a [routerLink]="link.path">{{ link.label }}</a>
+            }
+          </li>
+        }
+      </ul>
+    </section>
+  }
+</footer>

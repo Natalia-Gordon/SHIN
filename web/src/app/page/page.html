@@ -1,0 +1,45 @@
+@switch (view().state) {
+  @case ('loading') {
+    <p class="status">Loading this page…</p>
+  }
+  @case ('missing') {
+    <section class="missing">
+      <h1>This page is not in the archive</h1>
+      <p>The address does not match a published SHIN page.</p>
+      <a routerLink="/">Back to the home page</a>
+    </section>
+  }
+  @case ('ready') {
+    @if (view(); as ready) {
+      @if (ready.state === 'ready') {
+        <nav class="crumbs" aria-label="Breadcrumb">
+          <a routerLink="/">Home</a>
+          @for (crumb of ready.crumbs; track crumb.id) {
+            @if (crumb.path !== '/') {
+              <span aria-hidden="true">/</span>
+              @if (crumb.id === ready.page.id) {
+                <span>{{ crumb.title }}</span>
+              } @else {
+                <a [routerLink]="crumb.path">{{ crumb.title }}</a>
+              }
+            }
+          }
+        </nav>
+        <article>
+          <header class="page-title">
+            <h1>{{ ready.page.title }}</h1>
+            @if (ready.page.showDate) {
+              <p>
+                <time [attr.datetime]="ready.page.date">{{ ready.page.date | date: 'd MMMM y' }}</time>
+              </p>
+            }
+          </header>
+          <div class="prose" [appStaticHtml]="ready.page.html"></div>
+          @if (ready.page.slug === 'contact-us') {
+            <app-contact-form />
+          }
+        </article>
+      }
+    }
+  }
+}

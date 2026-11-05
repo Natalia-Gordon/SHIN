@@ -19,7 +19,7 @@ Open http://localhost:4200. The layout is built for phone screens as well as des
 
 A push to `main` builds `Dockerfile` and deploys Cloud Run service `shin` in project `shin-512818` (`us-central1`). The image tag matches w-parliament: `YYYYMMDD-HHMM-<short sha>-run<run number>`, plus `sha-<commit>` and `latest`.
 
-The site is https://shin-1056654439816.us-central1.run.app.
+The site is https://shin.org.il (also reachable at https://shin-1056654439816.us-central1.run.app). Requests to www.shin.org.il redirect to shin.org.il.
 
 GitHub Actions uses the deploy service account `shin-run-deploy@shin-512818.iam.gserviceaccount.com`. That account can update Cloud Run services and push images to the `shin` Artifact Registry repository. It signs in with Workload Identity Federation, restricted to the `Natalia-Gordon/SHIN` repository:
 
@@ -64,7 +64,7 @@ Every page is prerendered to static HTML at build time (Angular SSR with `output
 - `npm run build` first runs `web/tools/build-seo.mjs`, which writes `sitemap.xml`, `robots.txt` (open to search engines and AI crawlers such as GPTBot, ClaudeBot and PerplexityBot), `llms.txt` (a guide to the site for AI models) and `llms-full.txt` (the text of every page).
 - The server returns 404 for unknown addresses and redirects trailing slashes to the canonical address.
 
-All absolute links use `siteUrl` in `web/src/site.config.json`. When shin.org.il points to Cloud Run, change it there and redeploy. Then submit `sitemap.xml` in Google Search Console and Bing Webmaster Tools.
+All absolute links (canonical links, sitemap, structured data, `llms.txt`) use `siteUrl` in `web/src/site.config.json`, currently `https://shin.org.il`. Submit https://shin.org.il/sitemap.xml in Google Search Console and Bing Webmaster Tools.
 
 ## Chrome translation
 

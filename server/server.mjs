@@ -59,6 +59,16 @@ const app = express();
 app.disable('x-powered-by');
 app.set('trust proxy', true);
 app.use(compression());
+// One address per page for search engines: www.shin.org.il -> shin.org.il.
+app.use((req, res, next) => {
+  const host = req.hostname || '';
+  if (host.startsWith('www.')) {
+    res.redirect(301, `https://${host.slice(4)}${req.originalUrl}`);
+    return;
+  }
+  next();
+});
+
 app.use((_req, res, next) => {
   res.set({
     'Content-Language': 'en',

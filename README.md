@@ -21,6 +21,13 @@ A push to `main` builds `Dockerfile` and deploys Cloud Run service `shin` in pro
 
 The site is https://shin.org.il (also reachable at https://shin-1056654439816.us-central1.run.app). Requests to www.shin.org.il redirect to shin.org.il.
 
+The `shin` Artifact Registry repository keeps only the 3 newest images. The cleanup policy is in `gcp/artifact-registry-cleanup.json`; Artifact Registry applies it about once a day, so a fourth image can exist until the next run. To change it:
+
+```bash
+gcloud artifacts repositories set-cleanup-policies shin --location=us-central1 --project=shin-512818 \
+  --policy=gcp/artifact-registry-cleanup.json --no-dry-run
+```
+
 GitHub Actions uses the deploy service account `shin-run-deploy@shin-512818.iam.gserviceaccount.com`. That account can update Cloud Run services and push images to the `shin` Artifact Registry repository. It signs in with Workload Identity Federation, restricted to the `Natalia-Gordon/SHIN` repository:
 
 `projects/1056654439816/locations/global/workloadIdentityPools/github/providers/shin`

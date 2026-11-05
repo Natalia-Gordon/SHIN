@@ -24,6 +24,7 @@ export class Home {
       fullTitle: true,
       description: SITE_DESCRIPTION,
       path: '/',
+      image: '/brand/welcome-banner.jpg',
       jsonLd: [
         organizationJsonLd(),
         {

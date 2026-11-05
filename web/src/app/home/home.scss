@@ -1,9 +1,20 @@
-.hero-text {
-  max-width: 42rem;
+.welcome-banner {
+  margin: 0 0 1.5rem;
 }
 
-.hero-mark {
-  display: none;
+.welcome-banner img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 980 / 380;
+  object-fit: cover;
+  border-radius: 16px;
+  background: #3a2a12;
+  box-shadow: 0 12px 30px rgba(28, 36, 48, 0.12);
+}
+
+.hero-text {
+  max-width: 46rem;
 }
 
 .eyebrow {
@@ -114,28 +125,12 @@ h1 {
 }
 
 @media (min-width: 1024px) {
-  .hero {
-    display: grid;
-    grid-template-columns: minmax(0, 42rem) minmax(16rem, 22rem);
-    justify-content: space-between;
-    align-items: center;
-    gap: 3rem;
-    padding: 1.5rem 0 1rem;
+  .welcome-banner {
+    margin-bottom: 2.25rem;
   }
 
-  .hero-mark {
-    display: grid;
-    place-items: center;
-    padding: 2rem;
-    background: var(--card);
-    border: 1px solid var(--line);
-    border-radius: 24px;
-  }
-
-  .hero-mark img {
-    width: 100%;
-    max-width: 260px;
-    height: auto;
+  .welcome-banner img {
+    border-radius: 20px;
   }
 
   .projects {

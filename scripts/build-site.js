@@ -171,6 +171,7 @@ const BRAND = {
   anuar: '2015/09/anuar.jpg',
   womenReborn: '2015/07/WR.jpg',
   activistit: '2020/09/Activistit-full-final.png',
+  welcomeBanner: '2015/07/HD980X380.jpg',
 };
 
 for (const relativePath of Object.values(BRAND)) claim(relativePath);
@@ -450,7 +451,7 @@ function looksLikeMedia(bytes, relativePath) {
 
 async function downloadOne(relativePath) {
   const destination = path.join(MEDIA_DIR, path.basename(needed.get(relativePath)));
-  if (fs.existsSync(destination) && looksLikeMedia(fs.readFileSync(destination).subarray(0, 64), relativePath)) return 'cached';
+  if (fs.existsSync(destination) && looksLikeMedia(fs.readFileSync(destination), relativePath)) return 'cached';
   const encoded = relativePath
     .split('/')
     .map((part) => encodeURIComponent(part))
@@ -516,6 +517,7 @@ async function main() {
     anuar: 'anuar.jpg',
     womenReborn: 'women-reborn.jpg',
     activistit: 'activistit.png',
+    welcomeBanner: 'welcome-banner.jpg',
   };
   for (const [key, fileName] of Object.entries(brandFiles)) {
     const source = path.join(MEDIA_DIR, path.basename(needed.get(BRAND[key])));
